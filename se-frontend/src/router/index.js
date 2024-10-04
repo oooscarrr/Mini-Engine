@@ -1,23 +1,37 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import LoadEngineView from '../views/LoadEngineView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'LoadEngine',
+      component: LoadEngineView
+    },
+    {
+      path: '/engineloaded',
+      name: 'EngineLoaded',
+      component: () => import('../views/EngineLoadedView.vue')
     },
     {
       path: '/searchterm',
-      name: 'searchterm',
+      name: 'SearchTerm',
       component: () => import('../views/SearchTermView.vue')
+    },
+    { path: '/searchresults',
+      name: 'SearchResults',
+      component: () => import('../views/SearchResultsView.vue'),
     },
     {
       path: '/topn',
-      name: 'topn',
+      name: 'TopN',
       component: () => import('../views/TopNView.vue')
+    },
+    {
+      path: '/topnresults',
+      name: 'TopNResults',
+      component: () => import('../views/TopNResultsView.vue'),
     }
   ]
 })
