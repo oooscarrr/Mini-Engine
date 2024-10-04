@@ -1,16 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useSearchData } from '@/use/useSearchData';
+import { useSearchData } from '@/use/useSearchData'
 
-const { data, term, time } = useSearchData();
-console.log(term.value);
+const props = defineProps(['term'])
+
+const { searchData, data, time } = useSearchData()
+
+onMounted(() => {
+  searchData(props.term).catch((error) => {
+    console.error(error)
+  })
+})
 </script>
 
 <template>
   <main>
     <RouterLink class="router-link" to="/searchterm">Go Back To Search</RouterLink>
-    <div class="description">You searched for the term: {{ term }}</div>
+    <div class="description">You searched for the term: {{ props.term }}</div>
     <div class="description">Your search was executed in {{ time }} ms</div>
     <table>
         <thead>

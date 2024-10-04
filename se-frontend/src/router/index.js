@@ -22,6 +22,7 @@ const router = createRouter({
     { path: '/searchresults',
       name: 'SearchResults',
       component: () => import('../views/SearchResultsView.vue'),
+      props: route => ({ term: route.query.term })
     },
     {
       path: '/topn',
@@ -32,6 +33,7 @@ const router = createRouter({
       path: '/topnresults',
       name: 'TopNResults',
       component: () => import('../views/TopNResultsView.vue'),
+      props: route => ({ n: route.query.n })
     }
   ]
 })

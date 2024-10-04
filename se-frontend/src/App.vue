@@ -46,5 +46,6 @@ nav {
 
 .layout {
   height: calc(100% - 50px);
+  min-height: 500px;
 }
 </style>

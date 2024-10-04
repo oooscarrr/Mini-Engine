@@ -1,19 +1,14 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { useSearchData } from '@/use/useSearchData';
 
 const router = useRouter()
-const { searchData } = useSearchData();
 
 const search = () => {
   const term = document.getElementById('term').value
   if (term) {
-    // to-do
-    searchData(term).then(() => {
-      router.push('/searchresults')
-    }).catch((error) => {
-      console.error(error)
-    })
+    router.push('/searchresults?term='+term)
+  } else {
+    alert('Please enter a search term')
   }
 }
 </script>

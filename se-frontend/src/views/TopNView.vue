@@ -1,19 +1,14 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { useTopNData } from '@/use/useTopNData';
 
 const router = useRouter()
-const { getTopN } = useTopNData();
 
 const search = () => {
   const n = document.getElementById('n-value').value
-  if (n) {
-    // to-do
-    getTopN(n).then(() => {
-      router.push('/topnresults')
-    }).catch((error) => {
-      console.error(error)
-    })
+  if (n && n > 0 && Number.isInteger(Number(n))) {
+    router.push('/topnresults?n='+n)
+  } else {
+    alert('Please enter a positive integer')
   }
 }
 </script>
@@ -21,7 +16,7 @@ const search = () => {
 <template>
   <main>
     <h1>Enter Your N Value</h1>
-    <input type="number" id="n-value" placeholder="Type your N" autocomplete="off" />
+    <input type="number" min="0" id="n-value" placeholder="Type your N" autocomplete="off" />
     <button type="button" @click="search">Search</button>
   </main>
 </template>

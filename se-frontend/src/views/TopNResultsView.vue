@@ -1,9 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useTopNData } from '@/use/useTopNData';
+import { useTopNData } from '@/use/useTopNData'
 
-const { data, nValue } = useTopNData();
+const props = defineProps(['n'])
+
+const { getTopN, topNData, nValue } = useTopNData()
+
+onMounted(() => {
+  getTopN(props.n).catch((error) => {
+    console.error(error)
+  })
+})
 </script>
 
 <template>
@@ -18,7 +26,7 @@ const { data, nValue } = useTopNData();
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in data" :key="item.term">
+            <tr v-for="item in topNData" :key="item.term">
               <td>{{ item.term }}</td>
               <td>{{ item.frequency }}</td>
             </tr>
