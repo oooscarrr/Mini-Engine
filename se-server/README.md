@@ -19,10 +19,10 @@ docker buildx build --platform linux/amd64 -f Dockerfile -t $DOCKER_USER_ID/se-s
 
 ### Running the Container
 ```sh
-docker run -p 3000:3000 $DOCKER_USER_ID/se-server
+docker run -d -p 5001:5001 $DOCKER_USER_ID/se-server
 ```
 
 ### Pushing the container
 ```sh
-docker run -d -p 5001:5001 $DOCKER_USER_ID/se-server
+docker push $DOCKER_USER_ID/se-server
 ```

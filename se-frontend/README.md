@@ -42,5 +42,5 @@ docker run -p 3000:3000 $DOCKER_USER_ID/se-frontend
 
 ### Pushing the container
 ```sh
-docker run -p 3000:3000 $DOCKER_USER_ID/se-frontend
+docker push $DOCKER_USER_ID/se-frontend
 ```
