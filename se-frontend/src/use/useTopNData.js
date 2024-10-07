@@ -11,6 +11,7 @@ export const useTopNData = () => {
         .then(response => {
           nValue.value = n
           topNData.value = response.data.data
+          console.log("data received: " + topNData.value)
           resolve(response.data)
         })
         .catch(error => {

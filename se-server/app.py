@@ -30,7 +30,7 @@ top_n_data = [
 
 @app.route('/api/search', methods=['GET'])
 def search_term():
-    print(request.args.get('term'))
+    print("data: " + str(search_term_data))
     return jsonify({
         'status': 'success',
         'data': search_term_data
@@ -38,7 +38,7 @@ def search_term():
 
 @app.route('/api/topn', methods=['GET'])
 def top_n():
-    print(request.args.get('n'))
+    print("data: " + str(top_n_data))
     return jsonify({
         'status': 'success',
         'data': top_n_data
@@ -46,4 +46,6 @@ def top_n():
 
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    print("Server started on port 5001")
+    app.run(host='0.0.0.0', port=5001)
+    

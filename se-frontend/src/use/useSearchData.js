@@ -13,6 +13,7 @@ export const useSearchData = () => {
           const end = Date.now()
           time.value = end - start
           data.value = response.data.data
+          console.log("data received: " + data.value)
           resolve(response.data)
         })
         .catch(error => {
