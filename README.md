@@ -1,77 +1,94 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/pLRyr-9g)
+### Team Project Members: Oscar Xue, Yifan(Judy) Zhang
+---
+# Checkpoint Demonstration
+For our project, we have successfully built the first web application. At this stage, we have developed a functional app that includes both the user interface and backend (currently using mocked data). Additionally, we have created a Docker container and deployed the application within it. The application is fully operational when run in the Docker container.
 
-# SE-Server
+## 1. Application Home Page
+![image1](./Checkpoint1.png)
 
-## Project Setup
+## 2. Example User Input Page for Top N 
+We have built the user input pages for Top N and Search for Term.
+![image1](./Checkpoint2.png)
+
+## 3. Example Response Page for Top N 
+As shown by the below image, the frontend is making a request to the server, and is getting a 200 ok response.
+![image1](./Checkpoint3.png)
+
+---
+# Application Set Up
+## 1. SE-Server
+
+### Project Setup
 ```sh
 pip install -r requirements.txt
 ```
 
-## Compile and Hot-Reload for Development
+### Compile and Hot-Reload for Development
 ```sh
 flask run --port=5001
 ```
 
-## Dockerize the Application
+### Dockerize the Application
 
-### Building the Container
+#### Building the Container
 ```sh
 docker buildx build --platform linux/amd64 -f Dockerfile -t $DOCKER_USER_ID/se-server .
 ```
 
-### Running the Container
+#### Running the Container
 ```sh
 docker run -d -p 5001:5001 $DOCKER_USER_ID/se-server
 ```
 
-### Pushing the container
+#### Pushing the container
 ```sh
 docker push $DOCKER_USER_ID/se-server
 ```
 
-# SE-Frontend
+## 2. SE-Frontend
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+### Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+### Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+### Project Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+#### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+#### Compile and Minify for Production
 
 ```sh
 npm run build
 ```
 
-## Dockerize the Application
+### Dockerize the Application
 
-### Building the Container
+#### Building the Container
 ```sh
 docker buildx build --platform linux/amd64 -f Dockerfile -t $DOCKER_USER_ID/se-frontend .
 ```
 
-### Running the Container
+#### Running the Container
 ```sh
 docker run -p 3000:3000 $DOCKER_USER_ID/se-frontend
 ```
 
-### Pushing the container
+#### Pushing the container
 ```sh
 docker push $DOCKER_USER_ID/se-frontend
 ```
