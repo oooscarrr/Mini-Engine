@@ -1,0 +1,7 @@
+project_id = "cmu14848-435323"
+cluster_name = "cis-project-cluster"
+region = "us-central1"
+zone = "us-central1-a"
+credentials_json = "./cmu14848-435323-18580d6d49ee.json"
+dockerhub_username = "oooscarrrr"
+machine_type = "e2-standard-2"

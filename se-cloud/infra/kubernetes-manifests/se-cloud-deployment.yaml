@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: se-cloud
+  labels:
+    app: se-cloud
+spec:
+  selector:
+    matchLabels:
+      app: se-cloud
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: se-cloud
+    spec:
+      containers:
+      - image: gcr.io/cmu14848-435323/oooscarrrr/sentiment-analysis-frontend # To be changed
+        imagePullPolicy: Always
+        name: se-cloud
+        ports:
+          - containerPort: 80
