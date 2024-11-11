@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: se-cloud-lb
+  name: se-server-lb
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 5001
   selector:
-    app: se-cloud
+    app: se-server

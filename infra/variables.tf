@@ -20,12 +20,6 @@ variable "cluster_name" {
   description = "Name of server"
 }
 
-variable "node_pool" {
-  type        = string
-  description = "Name of Node Pool"
-  default     = "main-node-pool"
-}
-
 variable "machine_type" {
   type        = string
   description = "Machine Type"

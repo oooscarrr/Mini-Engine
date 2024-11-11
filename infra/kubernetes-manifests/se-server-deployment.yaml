@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: se-cloud
+  name: se-server
   labels:
-    app: se-cloud
+    app: se-server
 spec:
   selector:
     matchLabels:
-      app: se-cloud
+      app: se-server
   replicas: 2
   minReadySeconds: 15
   strategy:
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app: se-cloud
+        app: se-server
     spec:
       containers:
       - image: gcr.io/cmu14848-435323/oooscarrrr/sentiment-analysis-frontend # To be changed
         imagePullPolicy: Always
-        name: se-cloud
+        name: se-server
         ports:
-          - containerPort: 80
+          - containerPort: 5001
