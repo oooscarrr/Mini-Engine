@@ -1,0 +1,25 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ControlCenter
+metadata:
+  name: control-center
+  # namespace: kafka
+spec:
+  replicas: 1
+  config:
+    confluent.controlcenter.connect.cluster: "kafka"
+    confluent.controlcenter.ksql: "ksql"
+    confluent.controlcenter.schema.registry.url: "http://schema-registry:8081"
+    confluent.controlcenter.metrics.topic: "_confluent-metrics"
+  podTemplate:
+    tolerations:
+      - key: "kafka-only"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"

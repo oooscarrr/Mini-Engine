@@ -1,0 +1,25 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Zookeeper
+metadata:
+  name: zookeeper
+  # namespace: kafka
+spec:
+  replicas: 3
+  image:
+    application: confluentinc/cp-zookeeper:7.4.0
+    init: confluentinc/confluent-init-container:2.6.0
+  dataVolumeCapacity: 5Gi
+  logVolumeCapacity: 5Gi
+  podTemplate:
+    tolerations:
+      - key: "kafka-only"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"

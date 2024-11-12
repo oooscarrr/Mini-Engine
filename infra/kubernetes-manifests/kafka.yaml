@@ -1,0 +1,33 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Kafka
+metadata:
+  name: kafka-broker
+  # namespace: kafka
+spec:
+  replicas: 3
+  image:
+    application: confluentinc/cp-server:7.4.0
+    init: confluentinc/confluent-init-container:2.6.0
+  dataVolumeCapacity: 10Gi
+  listeners:
+    external:
+      externalAccess:
+        type: loadBalancer
+        loadBalancer:
+          domain: "localhost"
+    # custom:
+    #   - name: custom-listener
+    #     port: 9094
+  podTemplate:
+    tolerations:
+      - key: "kafka-only"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    resources:
+      requests:
+        cpu: "1"
+        memory: "2Gi"
+      limits:
+        cpu: "2"
+        memory: "4Gi"

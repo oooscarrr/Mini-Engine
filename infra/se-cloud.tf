@@ -1,3 +1,78 @@
+# resource "kubernetes_namespace" "se_cloud" {
+#   metadata {
+#     name = "se-cloud"
+#   }
+
+#   depends_on = [ google_container_node_pool.se_cloud_node_pool ]
+# }
+
+# resource "kubernetes_deployment" "se_cloud" {
+#   metadata {
+#     name      = "se-cloud"
+#     namespace = kubernetes_namespace.se_cloud.metadata[0].name
+#   }
+
+#   spec {
+#     replicas = 2
+
+#     selector {
+#       match_labels = {
+#         app = "se-cloud"
+#       }
+#     }
+
+#     template {
+#       metadata {
+#         labels = {
+#           app = "se-cloud"
+#         }
+#       }
+
+#       spec {
+#         container {
+#           name  = "se-cloud"
+#           image = "gcr.io/${var.project_id}/se-cloud:latest"
+
+#           env {
+#             name  = "KAFKA_BROKER"
+#             value = "confluent-kafka-cp-kafka.kafka.svc.cluster.local:9092"
+#           }
+
+#           port {
+#             container_port = 8080
+#           }
+#         }
+#       }
+#     }
+#   }
+
+#   depends_on = [ google_container_node_pool.se_cloud_node_pool ]
+# }
+
+# resource "kubernetes_service" "se_cloud_lb" {
+#   metadata {
+#     name      = "se-cloud-lb"
+#     namespace = kubernetes_namespace.se_cloud.metadata[0].name
+#   }
+
+#   spec {
+#     type = "LoadBalancer"
+
+#     selector = {
+#       app = "se-cloud"
+#     }
+
+#     port {
+#       port        = 8080
+#       target_port = 8080
+#       protocol    = "TCP"
+#     }
+#   }
+
+#   depends_on = [ kubernetes_deployment.se_cloud ]
+# }
+
+
 # resource "null_resource" "build_push_se_cloud" {
 #   depends_on = [ google_container_node_pool.se_cloud_node_pool ]
 
