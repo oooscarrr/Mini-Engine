@@ -1,0 +1,7 @@
+click==8.1.7
+joblib==1.4.2
+nltk==3.9.1
+py4j==0.10.9.7
+pyspark==3.5.3
+regex==2024.11.6
+tqdm==4.67.0

@@ -22,12 +22,34 @@ const openFileSelector = () => {
   }
 }
 
-const loadEngine = () => {
+const loadEngine = async () => {
   if (selectedFiles.value.length > 0) {
-    // to-do
-    router.push('/engineloaded')
+    const formData = new FormData();
+    selectedFiles.value.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const response = await fetch("http://localhost:5001/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Upload successful:", result);
+        router.push("/engineloaded");
+      } else {
+        const error = await response.json();
+        console.error("Upload failed:", error);
+        alert("Failed to upload files. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      alert("An error occurred. Please try again.");
+    }
   }
-}
+};
 </script>
 
 <template>
