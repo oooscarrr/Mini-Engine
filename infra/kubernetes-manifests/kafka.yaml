@@ -14,10 +14,12 @@ spec:
       externalAccess:
         type: loadBalancer
         loadBalancer:
-          domain: "localhost"
-    # custom:
-    #   - name: custom-listener
-    #     port: 9094
+          domain: "cluster.local"
+          # domain: "https://35.223.183.100"
+          externalTrafficPolicy: "Cluster"
+          # domain: "35.223.183.100"
+          # domain: "35.223.183.100.nip.io"
+          # domain: "localhost"
   podTemplate:
     tolerations:
       - key: "kafka-only"

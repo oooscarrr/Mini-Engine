@@ -14,23 +14,23 @@ resource "google_container_node_pool" "kafka_node_pool" {
   name       = "kafka-node-pool"
   location   = var.region
   cluster    = google_container_cluster.primary.self_link
-  node_count = 1
+  node_count = 2
 
   node_config {
     preemptible  = false
     machine_type = "n2-standard-2"
-    disk_size_gb = 50
+    disk_size_gb = 50 #25
     disk_type    = "pd-ssd"
-    taint {
-      key    = "kafka-only"
-      value  = "true"
-      effect = "NO_SCHEDULE"
-    }
+    # taint {
+    #   key    = "kafka-only"
+    #   value  = "true"
+    #   effect = "NO_SCHEDULE"
+    # }
   }
 
   autoscaling {
     min_node_count = 1
-    max_node_count = 4
+    max_node_count = 2
   }
 
   management {
@@ -39,25 +39,25 @@ resource "google_container_node_pool" "kafka_node_pool" {
   }
 }
 
-resource "google_container_node_pool" "se_cloud_node_pool" {
-  name       = "se-cloud-node-pool"
-  location   = var.region
-  cluster    = google_container_cluster.primary.self_link
-  node_count = 1
+# resource "google_container_node_pool" "se_cloud_node_pool" {
+#   name       = "se-cloud-node-pool"
+#   location   = var.region
+#   cluster    = google_container_cluster.primary.self_link
+#   node_count = 1
 
-  node_config {
-    preemptible  = true
-    machine_type = var.machine_type
-    disk_size_gb = 50
-  }
+#   node_config {
+#     preemptible  = true
+#     machine_type = var.machine_type
+#     disk_size_gb = 50
+#   }
 
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 3
-  }
+#   autoscaling {
+#     min_node_count = 1
+#     max_node_count = 2
+#   }
 
-  depends_on = [ google_container_node_pool.kafka_node_pool ]
-}
+#   depends_on = [ google_container_node_pool.kafka_node_pool ]
+# }
 
 # resource "google_container_node_pool" "se_server_node_pool" {
 #   name       = "se-server-node-pool"
