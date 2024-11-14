@@ -5,10 +5,10 @@ import { useSearchData } from '@/use/useSearchData'
 
 const props = defineProps(['term'])
 
-const { searchData, data, time } = useSearchData()
+const { getSearchData, searchData, time } = useSearchData()
 
 onMounted(() => {
-  searchData(props.term).catch((error) => {
+  getSearchData(props.term).catch((error) => {
     console.error(error)
   })
 })
@@ -29,11 +29,11 @@ onMounted(() => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in data" :key="item.id">
+            <tr v-for="item in searchData" :key="item.id">
               <td>{{ item.id }}</td>
               <td>{{ item.folder }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.frequency }}</td>
+              <td>{{ item.count }}</td>
             </tr>
         </tbody>
     </table>

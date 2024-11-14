@@ -10,15 +10,18 @@ export const useTopNData = () => {
       axios.get(`http://localhost:5001/api/topn?n=${n}`)
         .then(response => {
           nValue.value = n
-          topNData.value = response.data.data
-          console.log(JSON.stringify(response.data))
-          console.log("data received: " + topNData.value)
-          resolve(response.data)
+          const data = response.data.data
+          topNData.value = Object.entries(data).map(([term, stats]) => ({
+            term: term,
+            total_frequency: stats.total_frequency
+          }))
+          .sort((a, b) => b.total_frequency - a.total_frequency)
+
+          console.log(response.data.data)
         })
         .catch(error => {
           reject(error)
         })
-      // to-do
     })
   }
 

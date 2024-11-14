@@ -26,26 +26,7 @@ TOPIC = 'project-topic'
 INVERTED_INDEX_TOPIC = 'inverted-index-topic'
 TOP_N_WORDS_TOPIC = 'top-n-topic'
 
-# search_term_data = [
-#     { 'id': 1, 'folder': 'histories', 'name': '1kinghenryiv', 'frequency': 169 },
-#     { 'id': 2, 'folder': 'histories', 'name': '1kinghenryiv', 'frequency': 160 },
-#     { 'id': 3, 'folder': 'histories', 'name': '2kinghenryiv', 'frequency': 179 },
-#     { 'id': 4, 'folder': 'histories', 'name': '2kinghenryiv', 'frequency': 340 }
-# ]
 search_term_data = []
-
-top_n_data = [
-    { 'term': 'KING', 'frequency': 5000 },
-    { 'term': 'HENRY', 'frequency': 4500 },
-    { 'term': 'THE', 'frequency': 4000 },
-    { 'term': 'FOURTH', 'frequency': 3500 },
-    { 'term': 'SIR', 'frequency': 3000 },
-    { 'term': 'WALTER', 'frequency': 2500 },
-    { 'term': 'BLUNT', 'frequency': 2000 },
-    { 'term': 'OWEN', 'frequency': 1500 },
-    { 'term': 'GELNDOWER', 'frequency': 1000 },
-    { 'term': 'RICHARD', 'frequency': 500 }
-]
 
 # Function to create a Kafka Producer
 def create_kafka_producer(broker):
@@ -141,7 +122,10 @@ def top_n():
         return jsonify({"error": "Invalid or missing N value"}), 400
 
     n = int(n)
-    top_n_result = dict(list(top_n_words_dict.items())[:n])
+    sorted_top_n_words = dict(
+        sorted(top_n_words_dict.items(), key=lambda item: item[1]['total_frequency'], reverse=True)
+    )
+    top_n_result = dict(list(sorted_top_n_words.items())[:n])
     print(top_n_result)
     return jsonify({
         "status": "success",

@@ -35,7 +35,7 @@ parsed_df = kafka_df.selectExpr("CAST(value AS STRING)") \
 def clean_and_split_text(content):
     text = re.sub(r"[\n\r\t]", " ", content)
     text = re.sub(r"\s+", " ", text)
-    words = re.findall(r"\b\w+\b", text.lower())
+    words = re.findall(r"\b[a-zA-Z]+\b", text.lower())
     # Filter out NLTK stop words
     return [word for word in words if word not in stop_words]
 

@@ -28,7 +28,7 @@ onMounted(() => {
         <tbody>
             <tr v-for="item in topNData" :key="item.term">
               <td>{{ item.term }}</td>
-              <td>{{ item.frequency }}</td>
+              <td>{{ item.total_frequency }}</td>
             </tr>
         </tbody>
     </table>
