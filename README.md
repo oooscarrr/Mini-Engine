@@ -2,7 +2,11 @@
 ### Team Project Members: Oscar Xue, Yifan(Judy) Zhang
 ---
 # Video For Code Walkthrough & Functionality Demo
+Here is the Public Google Drive Video File:
+https://drive.google.com/file/d/1XxIUcKQEmsX6yicUT4lFsMcNvcvT9sA7/view?usp=sharing
 
+In case the .mov format video does not work, there is another .mp4 format video with same content:
+https://drive.google.com/file/d/1mAAeTmaXGvI4fI9UCUUpJntgIWpWJ9qs/view?usp=sharing
 
 # Cluster Set Up
 In the infra directory, run
