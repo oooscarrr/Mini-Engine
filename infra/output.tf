@@ -7,15 +7,7 @@ output "cluster_endpoint" {
   value = google_container_cluster.primary.endpoint
 }
 
-output "zookeeper_release_name" {
-  value = helm_release.zookeeper.name
+output "kafka_external_ip" {
+  description = "External IP address of the Kafka LoadBalancer service"
+  value       = data.external.kafka_external_ip.result["ip"]
 }
-
-output "kafka_release_name" {
-  value = helm_release.kafka.name
-}
-
-# output "kafka_external_ip" {
-#   description = "External IP address of the Kafka LoadBalancer service"
-#   value       = data.kubernetes_service.kafka.status[0].load_balancer[0].ingress[0].ip
-# }

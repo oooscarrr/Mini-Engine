@@ -20,7 +20,9 @@ logging.basicConfig(
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 # Kafka settings
-BROKER = 'localhost:9092'  # Change this to your Kafka broker address
+# BROKER = 'localhost:9092'  # Change this to your Kafka broker address
+BROKER = '34.55.244.49:9094'
+# BROKER = '35.226.212.238:9094,34.45.48.133:9094,34.42.79.61:9094'
 GROUP_ID = 'test-group'
 TOPIC = 'project-topic' 
 INVERTED_INDEX_TOPIC = 'inverted-index-topic'
@@ -32,7 +34,8 @@ search_term_data = []
 def create_kafka_producer(broker):
     conf = {
         'bootstrap.servers': broker,
-        'client.id': socket.gethostname()
+        'client.id': socket.gethostname(),
+        'message.max.bytes': 104857600
     }
     producer = Producer(conf)
     return producer
@@ -43,6 +46,7 @@ def create_kafka_consumer(broker, group_id, topic):
         'bootstrap.servers': broker,
         'group.id': group_id,
         'auto.offset.reset': 'earliest',
+        'message.max.bytes': 104857600,
         'client.id': socket.gethostname()
     }
     consumer = Consumer(conf)

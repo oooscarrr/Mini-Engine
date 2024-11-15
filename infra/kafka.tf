@@ -26,7 +26,7 @@ resource "helm_release" "zookeeper" {
 
   set {
     name  = "persistence.size"
-    value = "5Gi"
+    value = "10Gi"
   }
 
   depends_on = [ google_container_node_pool.kafka_node_pool, null_resource.configure_kubectl ] # kubernetes_namespace.kafka
@@ -76,7 +76,47 @@ resource "helm_release" "kafka" {
   # Persistence configuration
   set {
     name  = "persistence.size"
-    value = "3Gi"
+    value = "10Gi"
+  }
+
+  set {
+    name  = "resources.requests.memory"
+    value = "4Gi"
+  }
+
+  set {
+    name  = "resources.requests.cpu"
+    value = "1"
+  }
+
+  set {
+    name  = "resources.limits.memory"
+    value = "8Gi"
+  }
+
+  set {
+    name  = "resources.limits.cpu"
+    value = "2"
+  }
+
+  set {
+    name  = "extraConfig.maxMessageBytes"
+    value = "104857600"
+  }
+
+ set {
+    name  = "log.retention.bytes"
+    value = "1073741824" # 1 GB
+  }
+
+  set {
+    name  = "log.retention.hours"
+    value = "168" # 7 days
+  }
+
+  set {
+    name  = "log.segment.bytes"
+    value = "1073741824" # 1 GB
   }
 
   # External access configuration
@@ -125,46 +165,45 @@ resource "helm_release" "kafka" {
     value = "PLAINTEXT"
   }
 
-  # # Node affinity to schedule Kafka only on nodes labeled with `kafka-only=true`
-  # set {
-  #   name  = "affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key"
-  #   value = "kafka-only"
-  # }
-
-  # set {
-  #   name  = "affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator"
-  #   value = "In"
-  # }
-
-  # set {
-  #   name  = "affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0]"
-  #   value = "true"
-  # }
-
-  # # Tolerations to allow Kafka pods to be scheduled on tainted nodes
-  # set {
-  #   name  = "tolerations[0].key"
-  #   value = "kafka-only"
-  # }
-
-  # set {
-  #   name  = "tolerations[0].operator"
-  #   value = "Equal"
-  # }
-
-  # set {
-  #   name  = "tolerations[0].value"
-  #   value = "true"
-  # }
-
-  # set {
-  #   name  = "tolerations[0].effect"
-  #   value = "NoSchedule"
-  # }
-
   depends_on = [ helm_release.zookeeper ]
 }
 
+resource "null_resource" "create_kafka_topics" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl exec kafka-broker-0 -- bash -c "
+        kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic project-topic || true;
+        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic project-topic --partitions 3 --replication-factor 3 --config max.message.bytes=104857600 --config retention.ms=604800000;
+      "
+    EOT
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl exec kafka-broker-0 -- bash -c "
+        kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic inverted-index-topic || true;
+        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic inverted-index-topic --partitions 3 --replication-factor 3 --config max.message.bytes=104857600 --config retention.ms=604800000;
+      "
+    EOT
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl exec kafka-broker-0 -- bash -c "
+        kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic top-n-topic || true;
+        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic top-n-topic --partitions 3 --replication-factor 3 --config max.message.bytes=104857600 --config retention.ms=604800000;
+      "
+    EOT
+  }
+
+  depends_on = [ helm_release.kafka ]
+}
+
+# Run the script to get the webapp IP
+data "external" "kafka_external_ip" {
+  program = ["bash", "fetch_kafka_ip.sh"]
+  depends_on = [ null_resource.create_kafka_topics ]
+}
 
 # data "kubernetes_service" "kafka" {
 #   metadata {

@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: se-server
+  name: se-spark
   labels:
-    app: se-server
+    app: se-spark
 spec:
   selector:
     matchLabels:
-      app: se-server
-  replicas: 2
+      app: se-spark
+  replicas: 1
   minReadySeconds: 15
   strategy:
     type: RollingUpdate
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app: se-server
+        app: se-spark
     spec:
       containers:
-      - image: gcr.io/cmu14848-435323/oooscarrrr/sentiment-analysis-frontend # To be changed
+      - image: gcr.io/cmu14848-435323/oooscarrrr/se-spark
         imagePullPolicy: Always
-        name: se-server
+        name: se-spark
         ports:
           - containerPort: 5001

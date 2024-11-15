@@ -4,12 +4,21 @@ from pyspark.sql.types import StructType, StructField, StringType, ArrayType
 import re
 import nltk
 from nltk.corpus import stopwords
+import os
+from dotenv import load_dotenv
+
+bootstrap_servers = os.getenv("KAFKA_IP")+":9094"
+# bootstrap_servers = "localhost:9092"
 
 spark = SparkSession.builder \
     .appName("KafkaInvertedIndex") \
     .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0") \
     .config("spark.sql.streaming.statefulOperator.checkCorrectness.enabled", "false") \
+    .config("spark.kafka.consumer.fetch.message.max.bytes", "104857600") \
+    .config("spark.kafka.consumer.max.partition.fetch.bytes", "104857600") \
     .getOrCreate()
+
+spark.sparkContext.setLogLevel("ERROR")
 
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
@@ -23,8 +32,9 @@ schema = StructType([
 kafka_df = (
     spark.readStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", "localhost:9092")
+    .option("kafka.bootstrap.servers", bootstrap_servers)
     .option("subscribe", "project-topic")
+    .option("failOnDataLoss", "false")
     .load()
 )
 
@@ -66,9 +76,10 @@ inverted_index_output_df = inverted_index_df.select(
 inverted_index_query = (
     inverted_index_output_df.writeStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", "localhost:9092")
+    .option("kafka.bootstrap.servers", bootstrap_servers)
     .option("topic", "inverted-index-topic")
     .option("checkpointLocation", "/tmp/spark-temp-checkpoints")
+    .option("failOnDataLoss", "false")
     .outputMode("complete")
     .start()
 )
@@ -83,9 +94,10 @@ top_n_output_df = top_n_words.select(
 top_n_query = (
     top_n_output_df.writeStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", "localhost:9092") 
+    .option("kafka.bootstrap.servers", bootstrap_servers) 
     .option("topic", "top-n-topic")
     .option("checkpointLocation", "/tmp/spark-top-n-checkpoints")
+    .option("failOnDataLoss", "false")
     .outputMode("complete")
     .start()
 )
