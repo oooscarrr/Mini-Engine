@@ -103,3 +103,8 @@ As shown by the below image, the frontend is making a request to the server, and
 ![image1](./Checkpoint3.png)
 
 ---
+# Reference
+1. Spark and Kafka: https://spark.apache.org/docs/3.5.1/structured-streaming-kafka-integration.html
+2. Kafka message size: https://www.confluent.io/learn/kafka-message-size-limit/#default-size-limit
+3. Spark Inverted Index: https://stackoverflow.com/questions/47657531/pyspark-inverted-index
+4. Spark Top N: https://stackoverflow.com/questions/38397796/retrieve-top-n-in-each-group-of-a-dataframe-in-pyspark
