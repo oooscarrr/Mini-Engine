@@ -108,3 +108,5 @@ As shown by the below image, the frontend is making a request to the server, and
 2. Kafka message size: https://www.confluent.io/learn/kafka-message-size-limit/#default-size-limit
 3. Spark Inverted Index: https://stackoverflow.com/questions/47657531/pyspark-inverted-index
 4. Spark Top N: https://stackoverflow.com/questions/38397796/retrieve-top-n-in-each-group-of-a-dataframe-in-pyspark
+5. Spark Inverted Index: https://github.com/abhishek-kathuria/Big-Data-Spark-Inverted-Index
+6. NLTK stop words: https://www.geeksforgeeks.org/removing-stop-words-nltk-python/
