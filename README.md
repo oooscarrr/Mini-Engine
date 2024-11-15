@@ -1,25 +1,19 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/pLRyr-9g)
 ### Team Project Members: Oscar Xue, Yifan(Judy) Zhang
 ---
-# Checkpoint Demonstration
-For our project, we have successfully built the first web application. At this stage, we have developed a functional app that includes both the user interface and backend (currently using mocked data). Additionally, we have created a Docker container and deployed the application within it. The application is fully operational when run in the Docker container.
+# Cluster Set Up
+In the infra directory, run
+```sh
+terraform init
+terraform apply
+```
+to create the cluster. Terraform automatically creates the GKE cluster, deploys Kafka, creates topics, deploys the spark app, and outputs the external IP of the Kafka load balancer.
 
-## 1. Application Home Page
-![image1](./Checkpoint1.png)
-
-## 2. Example User Input Page for Top N 
-We have built the user input pages for Top N and Search for Term.
-![image1](./Checkpoint2.png)
-
-## 3. Example Response Page for Top N 
-As shown by the below image, the frontend is making a request to the server, and is getting a 200 ok response.
-![image1](./Checkpoint3.png)
-
----
-# Application Set Up
+# Lightweight Application Set Up
 ## 1. SE-Server
 
 ### Project Setup
+Inject the external IP of load balancer in the BROKER variable, then
 ```sh
 pip install -r requirements.txt
 ```
@@ -59,7 +53,7 @@ This template should help get you started developing with Vue 3 in Vite.
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ### Project Setup
-
+Inject the endpoint of 
 ```sh
 npm install
 ```
@@ -92,3 +86,20 @@ docker run -p 3000:3000 $DOCKER_USER_ID/se-frontend
 ```sh
 docker push $DOCKER_USER_ID/se-frontend
 ```
+
+
+# Checkpoint Demonstration
+For our project, we have successfully built the first web application. At this stage, we have developed a functional app that includes both the user interface and backend (currently using mocked data). Additionally, we have created a Docker container and deployed the application within it. The application is fully operational when run in the Docker container.
+
+## 1. Application Home Page
+![image1](./Checkpoint1.png)
+
+## 2. Example User Input Page for Top N 
+We have built the user input pages for Top N and Search for Term.
+![image1](./Checkpoint2.png)
+
+## 3. Example Response Page for Top N 
+As shown by the below image, the frontend is making a request to the server, and is getting a 200 ok response.
+![image1](./Checkpoint3.png)
+
+---

@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
 bootstrap_servers = os.getenv("KAFKA_IP")+":9094"
 # bootstrap_servers = "localhost:9092"
 
